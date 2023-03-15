@@ -1,7 +1,6 @@
 from tkinter import ttk 
 from tkinter import filedialog
 import customtkinter
-import sys
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
@@ -36,14 +35,11 @@ class App(customtkinter.CTk):
         self.code_button = customtkinter.CTkButton(self, text="DCT Formula",font=font1, fg_color="#03a819", hover_color="#03a819", width=120, corner_radius=20, text_color="#ffffff", command=self.dct_formula)
         self.code_button.place(x=20, y=260)
 
-        self.code_button = customtkinter.CTkButton(self, text="Inverse DCT Formula",font=font1, fg_color="#03a819", hover_color="#03a819", width=120, corner_radius=20, text_color="#ffffff", command=self.inverse_dct_formula)
-        self.code_button.place(x=20, y=300)
-
         self.code_button = customtkinter.CTkButton(self, text="Inverse DCT Matrix",font=font1, fg_color="#03a819", hover_color="#03a819", width=120, corner_radius=20, text_color="#ffffff", command=self.dct_matrix)
         self.code_button.place(x=20, y=340)
 
         self.code_button = customtkinter.CTkButton(self, text="psnr",font=font1, fg_color="#03a819", hover_color="#03a819", width=120, corner_radius=20, text_color="#ffffff", command=self.call_psnr)
-        self.code_button.place(x=20, y=380)
+        self.code_button.place(x=20, y=400)
 
     def image_to_ycrcb(self):
         
@@ -121,8 +117,6 @@ class App(customtkinter.CTk):
         
         cv2.imwrite("/home/yassg4mer/Project/tp_tmn/echentillonnage/SEch422.bmp", img422)
 
-
-        
     def sous_ech411(self):
         ycrcb = self.image_to_ycrcb()
         
@@ -215,9 +209,14 @@ class App(customtkinter.CTk):
     
     def dct_formula(self):
         img = cv2.imread('original_image.bmp', cv2.IMREAD_GRAYSCALE)
+        img = np.subtract(img, 128)
         self.dct_img = self.dct(img)
+        inverse_dct = self.inverse_dct(self.dct_img)
+
+
         cv2.imshow('Original Image', img)
         cv2.imshow('DCT Image', self.dct_img.astype('uint8'))
+        cv2.imshow('Inverse dct image', inverse_dct.astype('uint8'))
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
